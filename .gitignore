@@ -1,0 +1,4 @@
+.scannerwork/
+venv/
+__pycache__/
+.env

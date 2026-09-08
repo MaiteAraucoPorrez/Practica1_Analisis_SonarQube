@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="es"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Datos">
+    <meta name="description" content="">
+    <title>Registrar Negocio</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/RegistrarNegocio/nicepage.css')}}"  media="screen">
+<link rel="stylesheet" href="{{ url_for('static',filename='assets/RegistrarNegocio/RegistrarNegocio.css')}}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static',filename='assets/RegistrarNegocio/jquery.js')}}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static',filename='assets/RegistrarNegocio/nicepage.js')}}" defer=""></script>
+    <meta name="generator" content="Nicepage 5.0.7, nicepage.com">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "RegistrarNegocio"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="RegistrarNegocio">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+  </head>
+  <body class="u-body u-xl-mode" data-lang="es"><header class="u-clearfix u-header u-header" id="sec-d76f"><div class="u-clearfix u-sheet u-sheet-1"></div></header>
+    <section class="u-clearfix u-section-1" id="sec-1ce3">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+          <div class="u-layout">
+            <div class="u-layout-row">
+              <div class="u-align-center u-container-style u-layout-cell u-left-cell u-size-30 u-layout-cell-1" src="">
+                <div class="u-container-layout u-container-layout-1">
+                  <a href="/loginNeg" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-2 u-palette-2-base u-radius-6 u-btn-1">ATRÁS</a>
+                  <div class="u-align-left u-form u-form-1">
+                    <form action="/insertarNeg" method="POST">
+                      <h2 class="u-align-center u-form-group u-form-text u-text u-text-1">Registra tu negocio</h2>
+                      <div class="u-form-group">
+                        <label for="email-319a" class="u-label u-label-1">Nombre</label>
+                        <input placeholder="Ingresa el Nombre del Negocio" id="email-319a" name="nombre_neg" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-1" required="required" type="text">
+                      </div>
+                      <div class="u-form-group u-form-select u-form-group-3">
+                        <label for="select-e54e" class="u-label u-label-2">Categoria</label>
+                        <div class="u-form-select-wrapper">
+                          <select id="select-e54e" name="categoria" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-2" required="required">
+                            <option value="Hamburguesa">Hamburguesa</option>
+                            <option value="Pizza">Pizza</option>
+                            <option value="Carne">Carne</option>
+                            <option value="Pollo">Pollo</option>
+                            <option value="Postres">Postres</option>
+                            <option value="Helado">Helado</option>
+                          </select>
+                          <svg class="u-caret u-caret-svg" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" style="fill:currentColor;" xml:space="preserve"><polygon class="st0" points="8,12 2,4 14,4 "></polygon></svg>
+                        </div>
+                      </div>
+                      <div class="u-form-group u-form-group-4">
+                        <label for="text-37b4" class="u-label u-label-3">Contraseña</label>
+                        <input placeholder="Ingresa una contraseña" id="text-37b4" name="contra_neg" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-3" type="text" required="required">
+                      </div>
+                      <div class="u-align-left u-form-group u-form-submit">
+                        <a href="#" class="u-active-palette-5-dark-2 u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-5-dark-2 u-palette-2-base u-radius-12 u-btn-2">REGISTRAR</a>
+                        <input type="submit" value="submit" class="u-form-control-hidden">
+                      </div>
+                      <input type="hidden" value="" name="recaptchaResponse">
+                      <input type="hidden" name="formServices" value="f8ad303dd489cea78d286b56a7d17e7d">
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="u-align-left u-container-style u-image u-layout-cell u-right-cell u-size-30 u-image-1" data-image-width="2700" data-image-height="2700">
+                <div class="u-container-layout u-container-layout-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-8817"><div class="u-clearfix u-sheet u-sheet-1">
+         <p class="u-small-text u-text u-text-variant u-text-1">Bases de Datos II- Grupo 4</p>
+       </div></footer>
+ 
+  
+</body></html>

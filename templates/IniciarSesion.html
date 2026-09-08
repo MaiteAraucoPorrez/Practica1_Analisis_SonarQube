@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="es"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Iniciar Sesión">
+    <meta name="description" content="">
+    <title>Iniciar Sesion</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/IniciarSesion/nicepage.css')}}" media="screen">
+<link rel="stylesheet" href="{{ url_for('static',filename='assets/IniciarSesion/IniciarSesion.css')}}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static',filename='assets/IniciarSesion/jquery.js')}}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static',filename='assets/IniciarSesion/nicepage.js')}}" defer=""></script>
+    <meta name="generator" content="Nicepage 5.0.7, nicepage.com">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "IniciarSesion"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="IniciarSesion">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+  </head>
+  <body class="u-body u-xl-mode" data-lang="es"><header class="u-clearfix u-header u-header" id="sec-43ec"><div class="u-clearfix u-sheet u-sheet-1"></div></header>
+    <section class="u-clearfix u-image u-section-1" id="carousel_3846" data-image-width="2699" data-image-height="776">
+      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <div class="u-align-center u-container-style u-group u-radius-50 u-shape-round u-white u-group-1">
+          <div class="u-container-layout u-container-layout-1">
+            <h2 class="u-text u-text-default u-text-1">Iniciar Sesión</h2>
+            <div class="u-form u-form-1">
+              <form action="/" method= "POST">
+                <div class="u-form-group u-form-name">
+                  <label for="ci_usuario" class="u-label">CI</label>
+                  <input type="number" placeholder="Ingresa tu CI" name="ci_usuario" class="u-border-2 u-border-black u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle u-white" required>
+                </div>
+                <div class="u-form-group u-form-group-2">
+                  <label for="contra_usuario" class="u-label">Contraseña</label>
+                  <input type="password" name="contra_usuario" class="u-border-2 u-border-black u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle u-white" placeholder="Ingresa tu Contraseña" minlength="8" maxlength="20" required>
+                </div>
+                <div class="u-align-left u-form-group u-form-submit">
+                  <a class="u-active-palette-5-dark-2 u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-5-dark-2 u-palette-2-base u-radius-10 u-btn-1">INICIA SESION</a>
+                  <input type="submit" name="btnIniciaSesion" class="u-form-control-hidden">
+                </div>
+              </form>
+            </div>
+            <a href="/registrar" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-style u-none u-text-palette-1-base u-btn-2">Registrate aquí</a>
+            <a href="/loginNeg" class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-no-left u-border-no-right u-border-no-top u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-palette-1-base u-btn-3"><span class="u-file-icon u-icon u-text-palette-1-base u-icon-1"><img src="{{url_for('static',filename='/images/IniciarSesion/149460-53c42a5a.png')}}" alt=""></span>&nbsp;Pídelo Ya Negocios<br>
+            </a>
+            <a href="/loginRep" class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-no-left u-border-no-right u-border-no-top u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-palette-1-base u-btn-4"><span class="u-file-icon u-icon u-text-palette-1-base u-icon-2"><img src="{{ url_for('static',filename='images/IniciarSesion/9018820-a1f85d44.png')}}" alt=""></span>&nbsp;Pídelo Ya Repartidores<br></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-8817"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Bases de Datos II- Grupo 4</p>
+      </div></footer>
+</body></html>
