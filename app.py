@@ -7,6 +7,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+STAGE_MATCH = "$match"
+
 
 
 app = Flask(__name__)
@@ -97,7 +99,7 @@ def mostrarProds (idCli,idNeg):
     idNeg = float(idNeg)
     cliente_p=clientes.find({"_id":idCli})
     negocio_p=negocios.find({"_id":idNeg})
-    pipeline = [{"$match":{"_id":idNeg}},{"$unwind":'$Productos'},{"$match":{"Productos.Estado":"Disponible"}},{"$project":{"_id":0,"Productos":1}}]  
+    pipeline = [{STAGE_MATCH:{"_id":idNeg}},{"$unwind":'$Productos'},{STAGE_MATCH:{"Productos.Estado":"Disponible"}},{"$project":{"_id":0,"Productos":1}}]  
     productos_p=list(negocios.aggregate(pipeline))
     return render_template("Productos.html",cliente=cliente_p,negocio=negocio_p,productos=productos_p)
 
@@ -123,7 +125,7 @@ def leerProducto(idCli,idNeg,idProd,cantidad,estado):
                 prodNom=negocio_p[0]["Nombre"]
                 idProd = float(idProd)
                 cantidad = int(cantidad)
-                pipeline = [{"$match":{"_id":idNeg}},{"$unwind":'$Productos'},{"$match":{"Productos.codProd":idProd}},{"$project":{"_id":0,"NombreProd":"$Productos.Nombre","Precio":"$Productos.Precio","Productos":1}}]  
+                pipeline = [{STAGE_MATCH:{"_id":idNeg}},{"$unwind":'$Productos'},{STAGE_MATCH:{"Productos.codProd":idProd}},{"$project":{"_id":0,"NombreProd":"$Productos.Nombre","Precio":"$Productos.Precio","Productos":1}}]  
                 #producto=negocios.aggregate(pipeline)
                 producto=list(negocios.aggregate(pipeline))
                 for produ in producto:
@@ -289,7 +291,7 @@ def insertarNegocio ():
 @app.route("/mostrarProdsNeg/<nombreNeg>/",methods=['GET','POST'])
 def mostrarProductosNegocio (nombreNeg):  
     negocio_p=negocios.find({"Nombre":nombreNeg})
-    pipeline = [{"$match":{"Nombre":nombreNeg}},{"$unwind":'$Productos'},{"$project":{"_id":0,"Productos":1}}]  
+    pipeline = [{STAGE_MATCH:{"Nombre":nombreNeg}},{"$unwind":'$Productos'},{"$project":{"_id":0,"Productos":1}}]  
     productos_p=list(negocios.aggregate(pipeline))
     return render_template("ProductosNegocio.html",negocio=negocio_p,productos=productos_p)
   
