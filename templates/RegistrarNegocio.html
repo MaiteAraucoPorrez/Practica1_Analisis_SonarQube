@@ -35,6 +35,7 @@
                   <a href="/loginNeg" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-light-2 u-palette-2-base u-radius-6 u-btn-1">ATRÁS</a>
                   <div class="u-align-left u-form u-form-1">
                     <form action="/insertarNeg" method="POST">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                       <h2 class="u-align-center u-form-group u-form-text u-text u-text-1">Registra tu negocio</h2>
                       <div class="u-form-group">
                         <label for="email-319a" class="u-label u-label-1">Nombre</label>

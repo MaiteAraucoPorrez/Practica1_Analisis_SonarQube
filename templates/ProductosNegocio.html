@@ -119,6 +119,7 @@
           
           
           <form action="/insertarProducto/{{negocio[0]['Nombre'] }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="u-form-group u-label-top u-form-group-1">
               <label for="text-91b5" class="u-label">ID</label>
               <input type="text" placeholder="Id Producto" id="text-91b5" name="IdProd" class="u-border-1 u-border-grey-30 u-input u-input-rectangle">

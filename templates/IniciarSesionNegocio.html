@@ -32,6 +32,7 @@
             <h2 class="u-text u-text-default u-text-1">Iniciar Sesión Negocios</h2>
             <div class="u-form u-form-1">
               <form action="/loginNeg" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="u-form-group">
                   <label for="name-daf4" class="u-label">Nombre</label>
                   <input type="text" placeholder="Ingresa el nombre de tu negocio" id="name-daf4" name="nombre_neg" class="u-border-2 u-border-black u-border-no-left u-border-no-right u-border-no-top u-input u-input-rectangle u-white" required="required">

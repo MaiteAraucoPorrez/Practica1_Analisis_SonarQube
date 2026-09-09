@@ -69,6 +69,7 @@
                 <div class="u-align-left u-form u-form-1">
                   <!--<form action="https://forms.nicepagesrv.com/Form/Process" class="u-clearfix u-form-spacing-18 u-form-vertical u-inner-form" style="padding: 0px;" source="email" name="form">-->
                   <form action="/updateRep" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <h2 class="u-align-center u-form-group u-form-text u-text u-text-1"> Datos</h2>
                     <div class="u-form-group u-form-group-2">
                       <label for="address-452f" class="u-label u-label-1">CI</label>

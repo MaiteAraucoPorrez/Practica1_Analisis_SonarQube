@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template,request,redirect,url_for,session,flash # For flask implementation
+from flask_wtf.csrf import CSRFProtect
 from bson import ObjectId # For ObjectId to work
 from pymongo import MongoClient
 import os
@@ -11,6 +12,8 @@ load_dotenv()
 app = Flask(__name__)
 #parametro 
 app.secret_key=os.environ['SECRET_KEY']
+csrf = CSRFProtect()
+csrf.init_app(app)
 titulo = "PROYECTO"
 encabezado = " Iniciar Sesion "
 
