@@ -110,41 +110,52 @@ def validarProducto(estado):
         return False
     else:
         return True
-                      
-@app.route("/AgregarProd/<idCli>/<float:idNeg>/<float:idProd>/<cantidad>/<estado>",methods=['GET','POST'])   
-def leerProducto(idCli,idNeg,idProd,cantidad,estado):
-    cantidad=int(cantidad)
-    if(cantidad==1):
-        if (validarProducto(estado) == True):
-            if idProd in DicProductos:
-                ar = DicProductos[idProd]
-                ar[0]+=cantidad
-                DicProductos[idProd]=ar
-            else:
-                idCli=int(idCli)
-                idNeg=float(idNeg)
-                negocio_p=negocios.find({"_id":idNeg})
-                prodNom=negocio_p[0]["Nombre"]
-                idProd = float(idProd)
-                cantidad = int(cantidad)
-                pipeline = [{STAGE_MATCH:{"_id":idNeg}},{STAGE_UNWIND:FIELD_PRODUCTOS},{STAGE_MATCH:{"Productos.codProd":idProd}},{STAGE_PROJECT:{"_id":0,"NombreProd":"$Productos.Nombre","Precio":"$Productos.Precio","Productos":1}}]  
-                #producto=negocios.aggregate(pipeline)
-                producto=list(negocios.aggregate(pipeline))
-                for produ in producto:
-                    #print(produ["NombreProd"])
-                    prodNom=produ["NombreProd"]
-                    precioProd=produ["Precio"]
-                print(prodNom,precioProd)
-                arry=[cantidad,precioProd,prodNom]
-                DicProductos[idProd] = arry
-    elif(cantidad==-1):
-        if(len(DicProductos)>0):
-            if idProd in DicProductos:
-                if(DicProductos[idProd][0]>1):
-                    DicProductos[idProd][0]+=cantidad
-                else:
-                    DicProductos.pop(idProd)
-    print(DicProductos) 
+
+                       
+def sumar_cantidad(idProd, cantidad):
+    DicProductos[idProd][0] += cantidad
+
+def buscar_datos_producto(idNeg, idProd):
+    pipeline = [
+        {STAGE_MATCH: {"_id": idNeg}},
+        {STAGE_UNWIND: FIELD_PRODUCTOS},
+        {STAGE_MATCH: {"Productos.codProd": idProd}},
+        {STAGE_PROJECT: {"_id": 0, "NombreProd": "$Productos.Nombre", "Precio": "$Productos.Precio"}},
+    ]
+    resultados = list(negocios.aggregate(pipeline))
+    if not resultados:
+        return None, None
+    return resultados[0]["NombreProd"], resultados[0]["Precio"]
+
+def registrar_producto_nuevo(idNeg, idProd, cantidad):
+    nombre, precio = buscar_datos_producto(idNeg, idProd)
+    DicProductos[idProd] = [cantidad, precio, nombre]
+
+def procesar_incremento(idProd, idNeg, cantidad, estado):
+    if not validarProducto(estado):
+        return
+    if idProd in DicProductos:
+        sumar_cantidad(idProd, cantidad)
+        return
+    registrar_producto_nuevo(idNeg, idProd, cantidad)
+
+def procesar_decremento(idProd, cantidad):
+    if idProd not in DicProductos:
+        return
+    if DicProductos[idProd][0] > 1:
+        sumar_cantidad(idProd, cantidad)
+    else:
+        DicProductos.pop(idProd)
+
+@app.route("/AgregarProd/<idCli>/<float:idNeg>/<float:idProd>/<cantidad>/<estado>", methods=['GET','POST'])
+def leerProducto(idCli, idNeg, idProd, cantidad, estado):
+    cantidad = int(cantidad)
+    idNeg = float(idNeg)
+    if cantidad == 1:
+        procesar_incremento(idProd, idNeg, cantidad, estado)
+    elif cantidad == -1:
+        procesar_decremento(idProd, cantidad)
+    print(DicProductos)
     return redirect(request.referrer)
 
 # @app.route("/buscarProducto/<idNeg>/",methods=['GET','POST'])
