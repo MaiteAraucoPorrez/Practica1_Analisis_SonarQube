@@ -12,6 +12,12 @@ STAGE_PROJECT = "$project"
 STAGE_UNWIND = "$unwind"
 FIELD_PRODUCTOS = '$Productos'
 
+MSG_REGISTRO_EXITOSO = "Registrado con exito"
+MSG_UPDATE_EXITOSO = "Update con exito"
+RUTA_MOSTRAR_PRODUCTOS_NEG = "/mostrarProdsNeg/"
+RUTA_LOGIN_NEG = "/loginNeg"
+RUTA_MOSTRAR_PEDIDOS_DISP = "/mostrarPedidosDisp/"
+
 
 app = Flask(__name__)
 #parametro 
@@ -239,7 +245,7 @@ def insertar ():
         celular=int(celular)
         contra=request.values.get("contra_usuario")
         clientes.insert_one({"_id":ci,"nombreCli":nombre,"apellidoCli":apellido,"celular":celular,"contraCli":contra})
-        print("Registrado con exito")
+        print(MSG_REGISTRO_EXITOSO)
         return redirect("/")
     else:
         return redirect("/registrar")
@@ -256,11 +262,11 @@ def update():
     print(ci,nombre,apellido,celular,contra)
     clientes.update_one({"_id":ci},{"$set":{"nombreCli":nombre,"apellidoCli":apellido,"celular":celular,"contraCli":contra}})
     #clientes.update({"_id":ci},{"$set":{"nombreCli":nombre,"apellidoCli":apellido,"celular":celular,"contraCli":contra}})
-    print("Update con exito")
+    print(MSG_UPDATE_EXITOSO)
     return redirect("/datosCliente/"+format(ci))
 
 ################################# VISTA NEGOCIO ############################################
-@app.route("/loginNeg",methods=['GET','POST']) #get para mandar 
+@app.route(RUTA_LOGIN_NEG,methods=['GET','POST']) #get para mandar 
 def loginNegocio ():
     if request.method =='POST':
         nombreNeg=request.values.get("nombre_neg")
@@ -271,13 +277,13 @@ def loginNegocio ():
         if len(lista_negocio)!= 0:
             negocio=negocios.find({"Nombre":nombreNeg})
             if(negocio[0]["Nombre"]==nombreNeg and negocio[0]["contraNeg"]==passw): #validaciones
-                return redirect("/mostrarProdsNeg/"+format(nombreNeg)) #implementar
+                return redirect(RUTA_MOSTRAR_PRODUCTOS_NEG+format(nombreNeg)) #implementar
             else:
                 #mensaje="Usuario o contraseña incorrectos, vuelva a ingresar sus datos o registrese!"
                 #flash(mensaje,"ERROR")
-                return redirect("/loginNeg") #que vuelva a pedir que se registre pero con una advertencia de que el usuario o contrasenia que ingreso no existen
+                return redirect(RUTA_LOGIN_NEG) #que vuelva a pedir que se registre pero con una advertencia de que el usuario o contrasenia que ingreso no existen
         else:
-            return redirect("/loginNeg")
+            return redirect(RUTA_LOGIN_NEG)
     return render_template("IniciarSesionNegocio.html")
 
 @app.route("/registrarNeg",methods=['GET'])
@@ -296,12 +302,12 @@ def insertarNegocio ():
         cont=contador.find({"_id":1})
         valor=cont[0]["contador2"]
         negocios.insert_one({"_id":valor,"Nombre":nombreNeg,"Categoria":categ,"contraNeg":contra,"Productos":[]})
-        print("Registrado con exito")
-        return redirect("/loginNeg")
+        print(MSG_REGISTRO_EXITOSO)
+        return redirect(RUTA_LOGIN_NEG)
     else:
         return redirect("/registrarNeg")
     
-@app.route("/mostrarProdsNeg/<nombreNeg>/",methods=['GET','POST'])
+@app.route(RUTA_MOSTRAR_PRODUCTOS_NEG+"<nombreNeg>/",methods=['GET','POST'])
 def mostrarProductosNegocio (nombreNeg):  
     negocio_p=negocios.find({"Nombre":nombreNeg})
     pipeline = [{STAGE_MATCH:{"Nombre":nombreNeg}},{STAGE_UNWIND:FIELD_PRODUCTOS},{STAGE_PROJECT:{"_id":0,"Productos":1}}]  
@@ -319,13 +325,13 @@ def actualizarEstadoProd (nombreNeg,codProd,estado):
     codProd=float(codProd)
     estado=validarEstadoProd(estado)
     negocios.update_one({"Nombre":nombreNeg,"Productos.codProd":codProd},{"$set":{"Productos.$.Estado":estado}})
-    return redirect("/mostrarProdsNeg/"+format(nombreNeg))
+    return redirect(RUTA_MOSTRAR_PRODUCTOS_NEG+format(nombreNeg))
 
 @app.route("/borrarProd/<nombreNeg>/<float:codProd>/",methods=['GET','POST'])
 def borrarProductos (nombreNeg,codProd):  
     codProd=float(codProd)
     negocios.update_one({"Nombre":nombreNeg},{"$pull":{"Productos":{"codProd":codProd}}})
-    return redirect("/mostrarProdsNeg/"+format(nombreNeg))
+    return redirect(RUTA_MOSTRAR_PRODUCTOS_NEG+format(nombreNeg))
     
 @app.route("/datosNegocio/<nombreNeg>/", methods=['GET','POST'])
 def datosNegocio(nombreNeg):
@@ -341,7 +347,7 @@ def updateNegocio():
     contra=request.values.get("contra")
     negocios.update_one({"_id":idNeg},{"$set":{"Nombre":nombre,"Categoria":categoria,"contraNeg":contra}})
     #clientes.update({"_id":ci},{"$set":{"nombreCli":nombre,"apellidoCli":apellido,"celular":celular,"contraCli":contra}})
-    print("Update con exito")
+    print(MSG_UPDATE_EXITOSO)
     return redirect("/datosNegocio/"+format(nombre))
 
 @app.route("/insertarProducto/<nombreNeg>/",methods=['POST']) #post para recibir 
@@ -356,7 +362,7 @@ def insertarProducto (nombreNeg):
     precio=int(precio)
     negocios.update_one({"Nombre":nombreNeg},{"$push":{"Productos":{"codProd":codProd,"Nombre":nombreProd,"Precio":precio,"Descripcion":desc,"Estado":estado,"Categoria":categoria}}})
     print("Insertado con exito")
-    return redirect("/mostrarProdsNeg/"+format(nombreNeg))
+    return redirect(RUTA_MOSTRAR_PRODUCTOS_NEG+format(nombreNeg))
 
 @app.route("/pedidosNeg/<float:idNeg>/",methods=['GET'])
 def pedidosNeg (idNeg):    
@@ -383,7 +389,7 @@ def detallePedido (idNeg,idPedido):
 ##############################################################################################
 
 ################################# VISTA REPARTIDOR ############################################
-@app.route("/mostrarPedidosDisp/<idRep>/",methods=['GET','POST'])
+@app.route(RUTA_MOSTRAR_PEDIDOS_DISP+"<idRep>/",methods=['GET','POST'])
 def mostrarPedidosDisp (idRep):  
     idRep=int(idRep)
     repartidor=repartidores.find({"_id":idRep})
@@ -410,7 +416,7 @@ def actualizarEstadoRepartidor(idPedido,idRep,estadoPed,estadoRep):
     estadoPed=validarEstadoPed(estadoPed)
     repartidores.update_one({"_id":idRep},{"$set":{"estado":estadoRep}})
     pedidos.update_one({"_id":idPedido},{"$set":{"estadoPed":estadoPed}})
-    return redirect("/mostrarPedidosDisp/"+format(idRep))
+    return redirect(RUTA_MOSTRAR_PEDIDOS_DISP+format(idRep))
 
 @app.route("/finalizarPedido/<float:idPedido>/<idRep>/<estadoPed>/<estadoRep>/",methods=['GET','POST'])
 def finalizarPedido(idPedido,idRep,estadoPed,estadoRep):  
@@ -420,7 +426,7 @@ def finalizarPedido(idPedido,idRep,estadoPed,estadoRep):
     estadoPed=validarEstadoPed(estadoPed)
     repartidores.update_one({"_id":idRep},{"$set":{"estado":estadoRep}})
     pedidos.update_one({"_id":idPedido},{"$set":{"estadoPed":estadoPed}})
-    return redirect("/mostrarPedidosDisp/"+format(idRep))
+    return redirect(RUTA_MOSTRAR_PEDIDOS_DISP+format(idRep))
 
 
 @app.route("/loginRep",methods=['GET','POST']) #get para mandar 
@@ -436,7 +442,7 @@ def loginRepartidor():
             repartidor=repartidores.find({"_id":id})
             if(repartidor[0]["_id"]==id and repartidor[0]["contra"]==passw):#validaciones
                 #print("Id: ",cliente[0]["_id"]," pass:",cliente[0]["contraCli"])
-                return redirect("/mostrarPedidosDisp/"+format(id))
+                return redirect(RUTA_MOSTRAR_PEDIDOS_DISP+format(id))
             else:
                 #mensaje="Usuario o contraseña incorrectos, vuelva a ingresar sus datos o registrese!"
                 #flash(mensaje,"ERROR")
@@ -463,7 +469,7 @@ def insertarRepartidor ():
         celular=int(celular)
         contra=request.values.get("contra_usuario")
         repartidores.insert_one({"_id":ci,"Nombre":nombre,"Apellido":apellido,"celular":celular,"contra":contra,"estado":"D"})
-        print("Registrado con exito")
+        print(MSG_REGISTRO_EXITOSO)
         return redirect("/loginRep")
     else:
         return redirect("/registrarRep")
@@ -486,7 +492,7 @@ def updateRep():
     contra=request.values.get("contra_repartidor")
     print(ci,nombre,apellido,celular,contra)
     repartidores.update_one({"_id":ci},{"$set":{"Nombre":nombre,"Apellido":apellido,"celular":celular,"contra":contra}})
-    print("Update con exito")
+    print(MSG_UPDATE_EXITOSO)
     return redirect("/datosRepartidor/"+format(ci))
 
 
