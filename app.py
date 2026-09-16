@@ -40,43 +40,43 @@ DicProductos = {}
 def login ():
 
     if request.method =='POST':
-        id=request.values.get("ci_usuario")
-        id=int(id)
+        id_cliente=request.values.get("ci_usuario")
+        id_cliente=int(id_cliente)
         passw=request.values.get("contra_usuario")
-        cliente=clientes.find({"_id":id})
+        cliente=clientes.find({"_id":id_cliente})
         lista_cliente=list(cliente)
         #print(len(lista_cliente))
         if len(lista_cliente)!= 0:
-            cliente=clientes.find({"_id":id})
-            if(cliente[0]["_id"]==id and cliente[0]["contraCli"]==passw): #validaciones
-                return redirect("/mostrarCats/"+format(id))
+            cliente=clientes.find({"_id":id_cliente})
+            if(cliente[0]["_id"]==id_cliente and cliente[0]["contraCli"]==passw): #validaciones
+                return redirect("/mostrarCats/"+format(id_cliente))
             else:
                 return redirect("/") #que vuelva a pedir que se registre pero con una advertencia de que el usuario o contrasenia que ingreso no existen
         else:
             return redirect("/")
     return render_template("IniciarSesion.html")
 
-@app.route("/mostrarCats/<id>/", methods=['GET','POST'])
-def mostrarCats(id):
-    id=int(id)
-    cliente_l=clientes.find({"_id":id})
+@app.route("/mostrarCats/<id_cliente>/", methods=['GET','POST'])
+def mostrarCats(id_cliente):
+    id_cliente=int(id_cliente)
+    cliente_l=clientes.find({"_id":id_cliente})
     #print("Id: ",cliente_l[0]["_id"]," pass:",cliente_l[0]["contraCli"])
     return render_template("Categorias.html",cliente=cliente_l)
 
-@app.route("/datosCliente/<id>/", methods=['GET','POST'])
-def datosCliente(id):
-    id=int(id)
-    cliente_l=clientes.find({"_id":id})
+@app.route("/datosCliente/<id_cliente>/", methods=['GET','POST'])
+def datosCliente(id_cliente):
+    id_cliente=int(id_cliente)
+    cliente_l=clientes.find({"_id":id_cliente})
     print("Id: ",cliente_l[0]["_id"]," pass:",cliente_l[0]["contraCli"])
     return render_template("DatosCliente.html",cliente=cliente_l)
 
-@app.route("/mostrarNegs/<id>/",methods=['GET','POST']) #get para mandar 
-@app.route("/mostrarNegs/<id>/<categoria>/",methods=['GET','POST']) #get para mandar 
-def mostrarNegs(id,categoria=None):
+@app.route("/mostrarNegs/<id_cliente>/",methods=['GET','POST']) #get para mandar 
+@app.route("/mostrarNegs/<id_cliente>/<categoria>/",methods=['GET','POST']) #get para mandar 
+def mostrarNegs(id_cliente,categoria=None):
     DicProductos.clear()
     #print("Id: ",id)
-    id=int(id)
-    cliente_l=clientes.find({"_id":id})
+    id_cliente=int(id_cliente)
+    cliente_l=clientes.find({"_id":id_cliente})
     if(categoria != None):
         negocios_l=negocios.find({"Categoria":categoria})
     else:
@@ -84,13 +84,13 @@ def mostrarNegs(id,categoria=None):
     #print("Id: ",cliente_l[0]["_id"]," pass:",cliente_l[0]["contraCli"])
     return render_template("negocios.html",cliente=cliente_l,negocios=negocios_l,categoria=categoria)
 
-@app.route("/buscar/<id>/",methods=['GET','POST'])
+@app.route("/buscar/<id_cliente>/",methods=['GET','POST'])
 #@app.route("/buscar/<id>/<categoria>/",methods=['GET','POST'])
-def buscar (id):    
-    id=int(id)
+def buscar (id_cliente):    
+    id_cliente=int(id_cliente)
     criterio=request.values.get("search")
     categoria=request.values.get("categoria")
-    cliente=clientes.find({"_id":id})
+    cliente=clientes.find({"_id":id_cliente})
     if(categoria != None):
         negocios_l=negocios.find({"Nombre":criterio,"Categoria":categoria})
     else:
@@ -432,17 +432,17 @@ def finalizarPedido(idPedido,idRep,estadoPed,estadoRep):
 @app.route("/loginRep",methods=['GET','POST']) #get para mandar 
 def loginRepartidor():
     if request.method =='POST':
-        id=request.values.get("ci_rep")
-        id=int(id)
+        id_repartidor=request.values.get("ci_rep")
+        id_repartidor=int(id_repartidor)
         passw=request.values.get("contra_rep")
-        repartidor=repartidores.find({"_id":id})
+        repartidor=repartidores.find({"_id":id_repartidor})
         lista_repartidores=list(repartidor)
         #print(len(lista_cliente))
         if len(lista_repartidores)!= 0:
-            repartidor=repartidores.find({"_id":id})
-            if(repartidor[0]["_id"]==id and repartidor[0]["contra"]==passw):#validaciones
+            repartidor=repartidores.find({"_id":id_repartidor})
+            if(repartidor[0]["_id"]==id_repartidor and repartidor[0]["contra"]==passw):#validaciones
                 #print("Id: ",cliente[0]["_id"]," pass:",cliente[0]["contraCli"])
-                return redirect(RUTA_MOSTRAR_PEDIDOS_DISP+format(id))
+                return redirect(RUTA_MOSTRAR_PEDIDOS_DISP+format(id_repartidor))
             else:
                 #mensaje="Usuario o contraseña incorrectos, vuelva a ingresar sus datos o registrese!"
                 #flash(mensaje,"ERROR")
@@ -474,10 +474,10 @@ def insertarRepartidor ():
     else:
         return redirect("/registrarRep")
     
-@app.route("/datosRepartidor/<id>/", methods=['GET','POST'])
-def datosRepartidor(id):
-    id=int(id)
-    repartidor_l=repartidores.find({"_id":id})
+@app.route("/datosRepartidor/<id_repartidor>/", methods=['GET','POST'])
+def datosRepartidor(id_repartidor):
+    id_repartidor=int(id_repartidor)
+    repartidor_l=repartidores.find({"_id":id_repartidor})
     print("Id: ",repartidor_l[0]["_id"]," pass:",repartidor_l[0]["contra"])
     return render_template("DatosRepartidor.html",repartidor=repartidor_l)
 
