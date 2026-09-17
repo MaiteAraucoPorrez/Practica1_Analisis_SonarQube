@@ -67,41 +67,33 @@
                 <a href="javascript:history.back()" class="u-border-none u-btn u-button-style u-hover-palette-2-light-2 u-palette-2-base u-btn-1">Atrás<br>
                 </a>
                 <div class="u-align-left u-form u-form-1">
-                  <!--<form action="https://forms.nicepagesrv.com/Form/Process" class="u-clearfix u-form-spacing-18 u-form-vertical u-inner-form" style="padding: 0px;" source="email" name="form">-->
                   <form action="/updateRep" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <h2 class="u-align-center u-form-group u-form-text u-text u-text-1"> Datos</h2>
                     <div class="u-form-group u-form-group-2">
                       <label for="address-452f" class="u-label u-label-1">CI</label>
-                      <!--<input type="text" placeholder="Ci repartidor" id="address-452f" name="ci" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-1" required="required">-->
                       <input type="number" value={{ repartidor[0]["_id"] }}  name="ci_repartidor" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-1" required="required" readonly>
                     </div>
                     <div class="u-form-email u-form-group u-form-partition-factor-2">
                       <label for="email-319a" class="u-label u-label-2">Nombre</label>
-                      <!--<input type="email" placeholder=" nombre Repartidor" id="email-319a" name="nombre" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-2" required="">-->
                        <input type="text" value={{ repartidor[0]["Nombre"] }}  name="nombre_repartidor" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-2"  required="required">
                     </div>
                     <div class="u-form-group u-form-name u-form-partition-factor-2">
                       <label for="name-319a" class="u-label u-label-3">Apellido</label>
-                      <!--<input type="text" placeholder="apellido Repartidor" id="name-319a" name="apellido" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-3" required="">-->
                       <input type="text" value={{ repartidor[0]["Apellido"] }} name="apellido_repartidor" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-3"  required="required">
                     </div>
                     <div class="u-form-group">
                       <label for="message-319a" class="u-label u-label-4">Celular</label>
-                      <!--<input placeholder="celular Repartidor" rows="4" cols="50" id="message-319a" name="celular" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-4" required="required" type="text">-->
                       <input type="number" value={{ repartidor[0]["celular"] }} rows="4" cols="50" name="celular_repartidor" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-4" required="required" minlength="8" maxlength="8" >
                     </div>
                     <div class="u-form-group u-form-group-6">
                       <label for="text-37b4" class="u-label u-label-5">Contraseña</label>
-                      <!--<input placeholder="contra Repartidor" id="text-37b4" name="contra" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-5" type="text">-->
                       <input type="password" value={{ repartidor[0]["contra"] }} name="contra_repartidor" class="u-border-2 u-border-grey-50 u-grey-10 u-input u-input-rectangle u-radius-5 u-input-5"  required="required" minlength="8" maxlength="20">
                     </div>
                     <div class="u-align-left u-form-group u-form-submit">
                       <a class="u-active-palette-5-dark-2 u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-5-dark-2 u-palette-2-base u-radius-12 u-btn-2">Guardar Cambios</a>
                       <input type="submit" value="submit" class="u-form-control-hidden">
                     </div>
-                    <!--<div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>-->
-                    <!--<div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>-->
                     <input type="hidden" value="" name="recaptchaResponse">
                     <input type="hidden" name="formServices" value="f8ad303dd489cea78d286b56a7d17e7d">
                   </form>
