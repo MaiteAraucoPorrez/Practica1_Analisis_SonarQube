@@ -67,7 +67,6 @@
                 <a href="javascript:history.back()" class="u-border-none u-btn u-button-style u-hover-palette-2-light-2 u-palette-2-base u-btn-1">Atrás<br>
                 </a>
                 <div class="u-align-left u-form u-form-1">
-                  <!--<form action="https://forms.nicepagesrv.com/Form/Process" class="u-clearfix u-form-spacing-18 u-form-vertical u-inner-form" style="padding: 0px;" source="email" name="form">-->
                   <form action="/updateRep" method="POST">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <h2 class="u-align-center u-form-group u-form-text u-text u-text-1"> Datos</h2>
@@ -100,8 +99,6 @@
                       <a class="u-active-palette-5-dark-2 u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-5-dark-2 u-palette-2-base u-radius-12 u-btn-2">Guardar Cambios</a>
                       <input type="submit" value="submit" class="u-form-control-hidden">
                     </div>
-                    <!--<div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>-->
-                    <!--<div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>-->
                     <input type="hidden" value="" name="recaptchaResponse">
                     <input type="hidden" name="formServices" value="f8ad303dd489cea78d286b56a7d17e7d">
                   </form>
