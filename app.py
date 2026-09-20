@@ -164,18 +164,6 @@ def leer_producto(idCli, idNeg, idProd, cantidad, estado):
     print(DicProductos)
     return redirect(request.referrer)
 
-# @app.route("/buscarProducto/<idNeg>/",methods=['GET','POST'])
-# def buscarProd (id):    
-#     id=int(id)
-#     criterio=request.values.get("search")
-#     categoria=request.values.get("categoria")
-#     negocios=negocios.find({"_id":id})
-#     if(categoria != None):
-#         negocios_l=negocios.find({"Nombre":criterio,"Categoria":categoria})
-#     else:
-#         negocios_l=negocios.find({"Nombre":criterio})
-#     return render_template("Productos.html",cliente=cliente,negocios=negocios_l)
-
 ###################################################################################
 
 
@@ -223,7 +211,7 @@ def insertar_pedido (idCli,idNeg):
     return redirect(request.referrer)
 ###################################################################################
 
-@app.route("/logout")
+@app.route("/logout", methods=['GET'])
 def logout ():    
     return redirect("/")
 
@@ -279,8 +267,6 @@ def login_negocio ():
             if(negocio[0]["Nombre"]==nombreNeg and negocio[0]["contraNeg"]==passw): #validaciones
                 return redirect(RUTA_MOSTRAR_PRODUCTOS_NEG+format(nombreNeg)) #implementar
             else:
-                #mensaje="Usuario o contraseña incorrectos, vuelva a ingresar sus datos o registrese!"
-                #flash(mensaje,"ERROR")
                 return redirect(RUTA_LOGIN_NEG) #que vuelva a pedir que se registre pero con una advertencia de que el usuario o contrasenia que ingreso no existen
         else:
             return redirect(RUTA_LOGIN_NEG)
@@ -368,9 +354,7 @@ def insertar_producto (nombreNeg):
 def pedidos_negocio (idNeg):    
     idNeg=float(idNeg)
     listapedido=list(pedidos.find({"negocioId":idNeg}))
-    #cliente=listapedido.cliente
     negocio=negocios.find({"_id":idNeg})
-   # total=calcularTotal()
     return render_template("PedidosNegocio.html",pedidos=listapedido,negocio=negocio)
 
 
@@ -382,9 +366,7 @@ def detalle_pedido (idNeg,idPedido):
     productos=pedido[0]["productos"]
     print(pedido[0]["productos"])
     productos=list(productos)
-    #cliente=listapedido.cliente
     negocio=negocios.find({"_id":idNeg})
-   # total=calcularTotal()
     return render_template("DetallePedido.html",negocio=negocio,productos=productos)
 ##############################################################################################
 
@@ -444,8 +426,6 @@ def login_repartidor():
                 #print("Id: ",cliente[0]["_id"]," pass:",cliente[0]["contraCli"])
                 return redirect(RUTA_MOSTRAR_PEDIDOS_DISP+format(id_repartidor))
             else:
-                #mensaje="Usuario o contraseña incorrectos, vuelva a ingresar sus datos o registrese!"
-                #flash(mensaje,"ERROR")
                 return redirect("/loginRep") #que vuelva a pedir que se registre pero con una advertencia de que el usuario o contrasenia que ingreso no existen
         else:
             return redirect("/")
