@@ -100,14 +100,14 @@ def buscar (id_cliente):
 ############################# PARTE MIA JUAN PABLO ############################
 
 
-@app.route("/mostrarProds/<idCli>/<float:idNeg>/",methods=['GET','POST'])
-def mostrar_productos (idCli,idNeg):  
+@app.route("/mostrarProds/<id_cliente>/<float:id_negocio>/",methods=['GET','POST'])
+def mostrar_productos (id_cliente,id_negocio):  
 
-    idCli=int(idCli)
-    idNeg = float(idNeg)
-    cliente_p=clientes.find({"_id":idCli})
-    negocio_p=negocios.find({"_id":idNeg})
-    pipeline = [{STAGE_MATCH:{"_id":idNeg}},{STAGE_UNWIND:FIELD_PRODUCTOS},{STAGE_MATCH:{"Productos.Estado":"Disponible"}},{STAGE_PROJECT:{"_id":0,"Productos":1}}]  
+    id_cliente=int(id_cliente)
+    id_negocio = float(id_negocio)
+    cliente_p=clientes.find({"_id":id_cliente})
+    negocio_p=negocios.find({"_id":id_negocio})
+    pipeline = [{STAGE_MATCH:{"_id":id_negocio}},{STAGE_UNWIND:FIELD_PRODUCTOS},{STAGE_MATCH:{"Productos.Estado":"Disponible"}},{STAGE_PROJECT:{"_id":0,"Productos":1}}]  
     productos_p=list(negocios.aggregate(pipeline))
     return render_template("Productos.html",cliente=cliente_p,negocio=negocio_p,productos=productos_p)
 
@@ -118,14 +118,14 @@ def validar_producto(estado):
         return True
 
                        
-def sumar_cantidad(idProd, cantidad):
-    DicProductos[idProd][0] += cantidad
+def sumar_cantidad(id_producto, cantidad):
+    DicProductos[id_producto][0] += cantidad
 
-def buscar_datos_producto(idNeg, idProd):
+def buscar_datos_producto(id_negocio, id_producto):
     pipeline = [
-        {STAGE_MATCH: {"_id": idNeg}},
+        {STAGE_MATCH: {"_id": id_negocio}},
         {STAGE_UNWIND: FIELD_PRODUCTOS},
-        {STAGE_MATCH: {"Productos.codProd": idProd}},
+        {STAGE_MATCH: {"Productos.codProd": id_producto}},
         {STAGE_PROJECT: {"_id": 0, "NombreProd": "$Productos.Nombre", "Precio": "$Productos.Precio"}},
     ]
     resultados = list(negocios.aggregate(pipeline))
@@ -133,9 +133,9 @@ def buscar_datos_producto(idNeg, idProd):
         return None, None
     return resultados[0]["NombreProd"], resultados[0]["Precio"]
 
-def registrar_producto_nuevo(idNeg, idProd, cantidad):
-    nombre, precio = buscar_datos_producto(idNeg, idProd)
-    DicProductos[idProd] = [cantidad, precio, nombre]
+def registrar_producto_nuevo(id_negocio, id_producto, cantidad):
+    nombre, precio = buscar_datos_producto(id_negocio, id_producto)
+    DicProductos[id_producto] = [cantidad, precio, nombre]
 
 def procesar_incremento(idProd, idNeg, cantidad, estado):
     if not validar_producto(estado):
@@ -163,18 +163,6 @@ def leer_producto(idCli, idNeg, idProd, cantidad, estado):
         procesar_decremento(idProd, cantidad)
     print(DicProductos)
     return redirect(request.referrer)
-
-# @app.route("/buscarProducto/<idNeg>/",methods=['GET','POST'])
-# def buscarProd (id):    
-#     id=int(id)
-#     criterio=request.values.get("search")
-#     categoria=request.values.get("categoria")
-#     negocios=negocios.find({"_id":id})
-#     if(categoria != None):
-#         negocios_l=negocios.find({"Nombre":criterio,"Categoria":categoria})
-#     else:
-#         negocios_l=negocios.find({"Nombre":criterio})
-#     return render_template("Productos.html",cliente=cliente,negocios=negocios_l)
 
 ###################################################################################
 
@@ -223,7 +211,7 @@ def insertar_pedido (idCli,idNeg):
     return redirect(request.referrer)
 ###################################################################################
 
-@app.route("/logout")
+@app.route("/logout", methods=['GET'])
 def logout ():    
     return redirect("/")
 
@@ -279,8 +267,6 @@ def login_negocio ():
             if(negocio[0]["Nombre"]==nombreNeg and negocio[0]["contraNeg"]==passw): #validaciones
                 return redirect(RUTA_MOSTRAR_PRODUCTOS_NEG+format(nombreNeg)) #implementar
             else:
-                #mensaje="Usuario o contraseña incorrectos, vuelva a ingresar sus datos o registrese!"
-                #flash(mensaje,"ERROR")
                 return redirect(RUTA_LOGIN_NEG) #que vuelva a pedir que se registre pero con una advertencia de que el usuario o contrasenia que ingreso no existen
         else:
             return redirect(RUTA_LOGIN_NEG)
@@ -368,9 +354,7 @@ def insertar_producto (nombreNeg):
 def pedidos_negocio (idNeg):    
     idNeg=float(idNeg)
     listapedido=list(pedidos.find({"negocioId":idNeg}))
-    #cliente=listapedido.cliente
     negocio=negocios.find({"_id":idNeg})
-   # total=calcularTotal()
     return render_template("PedidosNegocio.html",pedidos=listapedido,negocio=negocio)
 
 
@@ -382,9 +366,7 @@ def detalle_pedido (idNeg,idPedido):
     productos=pedido[0]["productos"]
     print(pedido[0]["productos"])
     productos=list(productos)
-    #cliente=listapedido.cliente
     negocio=negocios.find({"_id":idNeg})
-   # total=calcularTotal()
     return render_template("DetallePedido.html",negocio=negocio,productos=productos)
 ##############################################################################################
 
@@ -444,8 +426,6 @@ def login_repartidor():
                 #print("Id: ",cliente[0]["_id"]," pass:",cliente[0]["contraCli"])
                 return redirect(RUTA_MOSTRAR_PEDIDOS_DISP+format(id_repartidor))
             else:
-                #mensaje="Usuario o contraseña incorrectos, vuelva a ingresar sus datos o registrese!"
-                #flash(mensaje,"ERROR")
                 return redirect("/loginRep") #que vuelva a pedir que se registre pero con una advertencia de que el usuario o contrasenia que ingreso no existen
         else:
             return redirect("/")

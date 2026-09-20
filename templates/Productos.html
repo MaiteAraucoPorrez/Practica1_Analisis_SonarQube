@@ -78,6 +78,11 @@
       {% endif %}
           {% if productos %}
                <table>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="fr-hide-by-clipping">Productos disponibles</th>
+                      </tr>
+                    </thead>
                     {% for producto in productos %}
                         <tr>
                           <div class="u-align-center u-border-2 u-border-grey-75 u-container-style u-product u-product-1">
